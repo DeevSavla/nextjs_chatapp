@@ -8,10 +8,13 @@ export async function POST(request: Request) {
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const stream = await model.generateContentStream(message);
-
+    
+    //translates normal text into bytes 
     const encoder = new TextEncoder();
     
+    //pipe that provides data chunk by chunk 
     const responseStream = new ReadableStream({
+      //starts when the stream begins - controller starts adding data chunk by chunk 
       async start(controller) {
         try {
           for await (const chunk of stream.stream) {

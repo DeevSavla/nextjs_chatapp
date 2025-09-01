@@ -53,10 +53,13 @@ export default function Home() {
 
       if (!res.body) throw new Error("No response body");
 
+      //pulls out each chunk data and reads it 
       const reader = res.body.getReader();
+      //converts bytes into plain text 
       const decoder = new TextDecoder();
 
       while (true) {
+        //promise when reader reads the chunk of data
         const { done, value } = await reader.read();
         if (done) break;
 
